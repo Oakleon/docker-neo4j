@@ -3,7 +3,7 @@
 from java:latest
 ## forked from the image by Tiago Pires
 ## https://registry.hub.docker.com/u/tpires/neo4j/
-maintainer Ahmet Kizilay, ahmet.kizilay@gmail.com
+maintainer Chris Hiestand, chris@oakleon.com
 
 ## install neo4j according to http://www.neo4j.org/download/linux
 # Import neo4j signing key
@@ -26,7 +26,11 @@ run chmod +x /launch.sh && chmod +x /build_auth_string.sh && \
     apt-get clean && \
     sed -i "s|#node_auto_indexing|node_auto_indexing|g" /var/lib/neo4j/conf/neo4j.properties && \
     sed -i "s|#node_keys_indexable|node_keys_indexable|g" /var/lib/neo4j/conf/neo4j.properties && \
-    echo "remote_shell_host=0.0.0.0" >> /var/lib/neo4j/conf/neo4j.properties
+    echo "remote_shell_host=0.0.0.0" >> /var/lib/neo4j/conf/neo4j.properties && \
+    sed -i "s|java.util.logging.ConsoleHandler.level=INFO|java.util.logging.ConsoleHandler.level=FINE|g" /var/lib/neo4j/conf/logging.properties
+    # sed -i "s|#wrapper.java.maxmemory=512|wrapper.java.maxmemory=8589|g" /var/lib/neo4j/conf/logging.properties
+    # sed -i "s|#wrapper.java.initmemory=512|wrapper.java.initmemory=8589|g" /var/lib/neo4j/conf/logging.properties
+    # sed -i "s|org.neo4j.server.database.location=data/graph.db|org.neo4j.server.database.location=/neo4j/graph.db|g" /var/lib/neo4j/conf/neo4j-server.properties
 
 # expose REST and shell server ports
 expose 7474
